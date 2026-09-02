@@ -1,3 +1,8 @@
+
+
+https://gemini.google.com/share/d/1oEJdWuY2lR6hx8fNxGvpuFNBemognMAT?usp=sharing
+
+
 - PDU: protocol data unit
     - name for: bit, segment, packet, frame
 
@@ -109,5 +114,87 @@ HID:  0.0.0.4
 
 ![alt text](image-8.png)
 
-https://gemini.google.com/share/d/1oEJdWuY2lR6hx8fNxGvpuFNBemognMAT?usp=sharing
+## DHCP 
+- DHCP used for auto IP assignment
+    - dynamic host configuration protocol
+- DORA process: four-step interaction used by DHCP to assign IP address, subnet mask, default gateway, and DNS parameters to a network client
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as DHCP Client
+    actor Server as DHCP Server
+
+    Note over Client: Needs an IP configuration
+    Client->>Server: DHCP DISCOVER (Broadcast: 255.255.255.255)
+    Note over Server: Selects available IP from pool
+    Server-->>Client: DHCP OFFER (Unicast / Broadcast)
+    Note over Client: Accepts proposed IP parameters
+    Client->>Server: DHCP REQUEST (Broadcast: 255.255.255.255)
+    Note over Server: Binds IP to MAC address in lease database
+    Server-->>Client: DHCP ACK (Unicast / Broadcast)
+    Note over Client: Applies IP, Subnet Mask, Gateway, & DNS
+```
+
+- Lease time: duration of dynamic IP
+
+### configing DHCP using server in cisco packet tracer
+
+![alt text](image-9.png)
+
+- give server0 `192.168.10.1` (static IP)
+- for DHCP give starting addr. `192.168.10.2` (to prevent conlflict)
+
+![alt text](image-10.png)
+
+- checking pc7
+
+![alt text](image-11.png)
+
+- pc8
+
+![alt text](image-12.png)
+
+- ARP: resolves IP with MAC
+    - address resolution protocol
+- Reverse-ARP:  resolves MAC with IP
+
+<details>
+<summary><b>Query:</b> what is ARP? </summary>
+
+**Address Resolution Protocol (ARP)** is a network protocol used to map a device's logical IP address (Layer 3) to its physical MAC address (Layer 2) on a local network.
+
+**How ARP Works**
+
+* **ARP Request:** When a device wants to communicate with an IP on the local network but lacks its physical address, it sends a broadcast frame asking, *"Who has IP 192.168.1.50? Tell 192.168.1.10."*
+* **ARP Reply:** The device matching that IP address responds directly (unicast) with its hardware address: *"192.168.1.50 is at 00:1A:2B:3C:4D:5E."*
+* **ARP Cache:** The requesting device stores the IP-to-MAC pair in a temporary local table so it doesn't have to repeat the request for every single packet sent.
+
+
+</details>
+
+
+- switch is a smart device (not dumb device)
+- it maintains mac address Table
+
+<details>
+<summary><b>Query:</b> is switch a smart device?</summary>
+
+Yes, a network switch is considered a "smart" device—especially when compared to a network hub—because it reads incoming data frames and intelligently forwards them only to the specific port connected to the destination device.
+
+**Why a Switch is "Smart"**
+
+* **MAC Address Learning:** Automatically builds and updates a **MAC Address Table** (CAM table) by observing the source addresses of incoming frames to map which physical device is on which port.
+* **Targeted Forwarding:** Instead of flooding data to every port, it forwards unicast traffic directly to the specific destination port, saving bandwidth and improving privacy.
+* **Collision Prevention:** Operates in full-duplex mode, allowing devices to transmit and receive data simultaneously without network packet collisions.
+
+**Levels of Switch "Intelligence"**
+
+| Device Type | Intelligence Level | How Traffic is Handled |
+| --- | --- | --- |
+| **Hub** | "Dummy" (Layer 1) | Re-transmits all incoming bits to every connected port indiscriminately. |
+| **Unmanaged Switch** | Smart (Layer 2) | Plug-and-play; automatically routes frames based on MAC addresses, but cannot be configured. |
+| **Managed / Smart Switch** | Advanced (Layer 2 / Layer 3) | Configurable; supports VLANs, Quality of Service (QoS), security access lists, and remote management. |
+
+</details>
 
