@@ -117,7 +117,7 @@ HID:  0.0.0.4
 ## DHCP 
 - DHCP used for auto IP assignment
     - dynamic host configuration protocol
-- DORA process: four-step interaction used by DHCP to assign IP address, subnet mask, default gateway, and DNS parameters to a network client
+- **DORA process**: four-step interaction used by DHCP to assign IP address, subnet mask, default gateway, and DNS parameters to a network client
 
 ```mermaid
 sequenceDiagram
